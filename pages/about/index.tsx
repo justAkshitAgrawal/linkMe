@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import React from "react";
 import { motion } from "framer-motion";
 
-const Index = () => {
+const index = () => {
   return (
     <div className="h-screen bg-primary">
       <div className="px-20 py-14">
@@ -12,7 +12,7 @@ const Index = () => {
 
         <div className="mt-20 flex items-center space-x-10">
           <div className="flex-1 ml-10">
-            <h1 className="text-white text-9xl font-semibold max-w-4xl">
+            <h1 className="text-white text-9xl font-semibold ">
               Share everything about you. All at one place. with{` `}
               <motion.span
                 style={{
@@ -39,27 +39,10 @@ const Index = () => {
               </motion.span>
             </h1>
           </div>
-          <div className="flex items-center relative">
-            <img
-              src="/linkMe.svg"
-              alt=""
-              className=" h-[70vh] mx-20 hover:rotate-6 transition-all"
-            />
-            <img
-              src="/text.svg"
-              alt=""
-              className="absolute bottom-8 h-44 -rotate-[25deg] -left-24 cursor-pointer"
-            />
-            <img
-              src="/arrow.svg"
-              alt=""
-              className="absolute bottom-10 h-24 -left-4"
-            />
-          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Index;
+export default index;
