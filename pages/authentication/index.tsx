@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import { signInWithPopup } from "firebase/auth";
-import { provider, auth } from "../../firebase";
+import { provider, auth, firestore } from "../../firebase";
 import {
   Card,
   CardContent,
@@ -10,28 +10,28 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { FcGoogle } from "react-icons/fc";
-import { useRecoilState } from "recoil";
-
-import { userAtom } from "@/atoms/user";
-import { authState } from "@/atoms/authState";
+import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 import { useRouter } from "next/router";
+import useUserStore from "@/stores/user";
+import useAuthStore from "@/stores/authStore";
 
 const Index = () => {
-  const [user, setUser] = useRecoilState<any>(userAtom);
-  const [authUser, setAuthUser] = useRecoilState<any>(authState);
-
   const router = useRouter();
+  const { uid, setUid } = useUserStore();
+  const { setLoggedIn } = useAuthStore();
 
-  const handleLogin = () => {
-    signInWithPopup(auth, provider)
+  const handleLogin = async () => {
+    await signInWithPopup(auth, provider)
       .then((data) => {
-        setUser(data.user);
-        setAuthUser(true);
         localStorage.setItem("user", JSON.stringify(data.user));
         localStorage.setItem("authUser", JSON.stringify(true));
-        router.push("/dashboard");
+        setUid(data.user.uid);
+        console.log(data.user.uid);
+        setLoggedIn(true);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

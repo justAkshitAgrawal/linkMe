@@ -1,13 +1,11 @@
 import React from "react";
-import { Badge, badgeVariants } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { RocketIcon } from "@radix-ui/react-icons";
-
-import { useRecoilValue } from "recoil";
-import { authState } from "@/atoms/authState";
+import useAuthStore from "@/stores/authStore";
 
 const Navbar = () => {
-  const auth = useRecoilValue(authState);
+  const { loggedIn } = useAuthStore();
   return (
     <nav className="px-10 py-4 border-[1px] bg-secondary rounded-full flex justify-between items-center ring-2">
       <Link href="/">
@@ -24,10 +22,10 @@ const Navbar = () => {
           </Badge>
         </Link>
 
-        <Link href={auth ? "/dashboard" : "/authentication"}>
+        <Link href={loggedIn ? "/dashboard" : "/authentication"}>
           <Badge className="px-4 py-2 ring-2 ring-ring flex items-center space-x-2 hover:text-white text-lg cursor-pointer">
-            <h1>{auth ? "Dashboard" : "Get Started"}</h1>
-            {!auth && <RocketIcon />}
+            <h1>{loggedIn ? "Dashboard" : "Get Started"}</h1>
+            {!loggedIn && <RocketIcon />}
           </Badge>
         </Link>
       </div>

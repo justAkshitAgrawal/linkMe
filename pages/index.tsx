@@ -4,7 +4,21 @@ import { motion } from "framer-motion";
 
 const Index = () => {
   return (
-    <div className="h-screen bg-primary">
+    <div className="h-screen bg-primary relative">
+      <motion.div
+        animate={{
+          x: [0, 300, 0],
+          y: [0, 400, 100, 0],
+        }}
+        transition={{
+          repeat: Infinity,
+          repeatType: "reverse",
+          duration: 4,
+          ease: "easeInOut",
+        }}
+        className="absolute p-40 rounded-full bg-gradient-to-tr from-pink-500 to-blue-500 blur-[150px] h-80 w-80 top-64 left-52"
+      ></motion.div>
+
       <div className="px-20 py-14">
         <div>
           <Navbar />

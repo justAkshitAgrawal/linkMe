@@ -3,8 +3,24 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { AiOutlineLogout } from "react-icons/ai";
 import { RxExternalLink } from "react-icons/rx";
+import { signOut } from "firebase/auth";
+import { useRouter } from "next/router";
+import { auth } from "@/firebase";
 
 const DashNav = () => {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        router.push("/");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
+
   return (
     <nav className="px-10 py-4 border-[1px] bg-secondary rounded-full flex justify-between items-center ring-2">
       <Badge className="px-4 cursor-default py-2 text-lg">
@@ -38,7 +54,12 @@ const DashNav = () => {
           </Badge>
         </Link>
 
-        <Badge className="px-4 py-2 ring-2 ring-ring flex items-center space-x-2 hover:text-white text-lg cursor-pointer">
+        <Badge
+          className="px-4 py-2 ring-2 ring-ring flex items-center space-x-2 hover:text-white text-lg cursor-pointer"
+          onClick={() => {
+            handleLogout();
+          }}
+        >
           <h1>Logout</h1>
           <AiOutlineLogout />
         </Badge>
