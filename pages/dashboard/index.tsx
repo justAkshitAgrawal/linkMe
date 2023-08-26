@@ -6,10 +6,10 @@ import { PlusCircledIcon } from "@radix-ui/react-icons";
 import BioArea from "@/components/BioArea";
 import Profile from "@/components/Profile";
 import useUserStore from "@/stores/user";
+import LinkView from "@/components/LinkView";
 
 const Index = () => {
   const { uid, name } = useUserStore();
-  console.log(uid, name);
 
   return (
     <div className="min-h-screen bg-primary">
@@ -59,12 +59,7 @@ const Index = () => {
 
               <BioArea />
 
-              <div className="bg-white/5 ring ring-ring w-[35vw] h-fit rounded-md p-5">
-                <Button className="text-lg ">
-                  <PlusCircledIcon className="h-5 w-5 mr-2" />
-                  New Link
-                </Button>
-              </div>
+              <LinkView />
             </div>
           </motion.div>
 

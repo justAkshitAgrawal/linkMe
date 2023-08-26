@@ -2,9 +2,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import useProfileInfo from "@/stores/ProfileInfo";
+import useUserStore from "@/stores/user";
 
 const Profile = () => {
   const { bio } = useProfileInfo();
+  const { name, photoURL } = useUserStore();
 
   return (
     <div className="flex flex-col items-center h-full relative">
@@ -24,12 +26,12 @@ const Profile = () => {
         className="flex p-[2px] mt-3 items-center rounded-full"
       >
         <Avatar className="w-24 h-24">
-          {/* <AvatarImage src={user?.photoURL} alt="Profile Image" /> */}
+          <AvatarImage src={photoURL || ""} alt="Profile Image" />
           <AvatarFallback>UA</AvatarFallback>
         </Avatar>
       </motion.div>
 
-      {/* <h1 className="text-white mt-3 text-lg">{user?.displayName}</h1> */}
+      <h1 className="text-white mt-3 text-lg">{name}</h1>
 
       <p className=" text-white text-sm text-center max-w-[12vw] break-words mt-3">
         {bio || ""}

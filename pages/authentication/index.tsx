@@ -17,7 +17,7 @@ import useAuthStore from "@/stores/authStore";
 
 const Index = () => {
   const router = useRouter();
-  const { uid, setUid } = useUserStore();
+  const { setUid, setEmail, setName } = useUserStore();
   const { setLoggedIn } = useAuthStore();
 
   const handleLogin = async () => {
@@ -26,7 +26,8 @@ const Index = () => {
         localStorage.setItem("user", JSON.stringify(data.user));
         localStorage.setItem("authUser", JSON.stringify(true));
         setUid(data.user.uid);
-        console.log(data.user.uid);
+        setEmail(data.user?.email);
+        setName(data.user?.displayName);
         setLoggedIn(true);
       })
       .catch((error) => {

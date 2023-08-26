@@ -6,14 +6,21 @@ import { RxExternalLink } from "react-icons/rx";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/router";
 import { auth } from "@/firebase";
+import useAuthStore from "@/stores/authStore";
+import useUserStore from "@/stores/user";
 
 const DashNav = () => {
   const router = useRouter();
+  const { setLoggedIn } = useAuthStore();
+  const { name } = useUserStore();
 
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
+        setLoggedIn(false);
+        localStorage.removeItem("user");
+        localStorage.removeItem("authUser");
         router.push("/");
       })
       .catch((error) => {
@@ -24,7 +31,7 @@ const DashNav = () => {
   return (
     <nav className="px-10 py-4 border-[1px] bg-secondary rounded-full flex justify-between items-center ring-2">
       <Badge className="px-4 cursor-default py-2 text-lg">
-        Welcome, Akshit
+        Welcome{name?.split(" ")[0] ? ", " + name?.split(" ")[0] : ""}
       </Badge>
 
       <div className="flex items-center space-x-5">

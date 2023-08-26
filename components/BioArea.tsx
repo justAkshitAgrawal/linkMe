@@ -5,11 +5,36 @@ import { TbTrashXFilled } from "react-icons/tb";
 import { Button } from "./ui/button";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 import useProfileInfo from "@/stores/ProfileInfo";
+import useUserStore from "@/stores/user";
+import { doc, updateDoc } from "firebase/firestore";
+import { firestore } from "@/firebase";
 
 const BioArea = () => {
   const { bio, setBio } = useProfileInfo();
+  const { uid } = useUserStore();
   const [showBioEditor, setShowBioEditor] = useState(false);
   const [count, setCount] = useState(0);
+
+  const updateBio = () => {
+    if (bio?.trim() !== "") {
+      try {
+        const docRef = doc(firestore, "users", uid);
+        updateDoc(docRef, {
+          bio: bio,
+        });
+      } catch (error) {
+        console.error("Error setting document:", error);
+      }
+    }
+  };
+
+  const clearBio = () => {
+    setBio("");
+    const docRef = doc(firestore, "users", uid);
+    updateDoc(docRef, {
+      bio: "",
+    });
+  };
 
   return (
     <motion.div
@@ -25,8 +50,8 @@ const BioArea = () => {
         <div
           className="absolute right-5 ring ring-red-500 p-1 rounded-full top-[50%] -translate-y-[50%] cursor-pointer"
           onClick={() => {
-            setBio("");
             setCount(0);
+            clearBio();
           }}
         >
           <TbTrashXFilled className=" h-6 w-6 text-red-500" />
@@ -71,12 +96,26 @@ const BioArea = () => {
             }}
           />
           <div className="flex items-center justify-between">
-            <Button
-              className="text-lg self-start"
-              onClick={() => setShowBioEditor(false)}
-            >
-              Save
-            </Button>
+            <div className="flex items-center space-x-2">
+              <Button
+                className="text-lg self-start"
+                onClick={() => {
+                  setShowBioEditor(false);
+                  updateBio();
+                }}
+              >
+                Save
+              </Button>
+              <Button
+                className="text-lg self-start text-red-500"
+                variant={"secondary"}
+                onClick={() => {
+                  setShowBioEditor(false);
+                }}
+              >
+                Cancel
+              </Button>
+            </div>
             <p className="text-sm text-gray-400">{count}/100</p>
           </div>
         </motion.div>
