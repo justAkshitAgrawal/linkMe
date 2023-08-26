@@ -35,22 +35,6 @@ const DashNav = () => {
       </Badge>
 
       <div className="flex items-center space-x-5">
-        <Link href="/dashboard">
-          <Badge
-            variant={"secondary"}
-            className="px-4 py-2 ring-2 ring-ring hover:bg-black hover:text-white text-lg cursor-pointer flex items-center space-x-2"
-          >
-            <h1>Links</h1>
-          </Badge>
-        </Link>
-        <Link href="/about">
-          <Badge
-            variant={"secondary"}
-            className="px-4 py-2 ring-2 ring-ring hover:bg-black hover:text-white text-lg cursor-pointer flex items-center space-x-2"
-          >
-            <h1>Appearance</h1>
-          </Badge>
-        </Link>
         <Link href="/about">
           <Badge
             variant={"secondary"}

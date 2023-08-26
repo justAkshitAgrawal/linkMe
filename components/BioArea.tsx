@@ -46,7 +46,7 @@ const BioArea = () => {
       }}
       className="bg-white/5 ring ring-ring w-[35vw] relative rounded-md p-5"
     >
-      {bio.length !== 0 && !showBioEditor && (
+      {bio?.length !== 0 && !showBioEditor && (
         <div
           className="absolute right-5 ring ring-red-500 p-1 rounded-full top-[50%] -translate-y-[50%] cursor-pointer"
           onClick={() => {
@@ -57,13 +57,13 @@ const BioArea = () => {
           <TbTrashXFilled className=" h-6 w-6 text-red-500" />
         </div>
       )}
-      {!showBioEditor && bio.length === 0 && (
+      {!showBioEditor && bio?.length === 0 && (
         <Button className="text-lg" onClick={() => setShowBioEditor(true)}>
           <Pencil2Icon className="h-5 w-5 mr-2" />
           Bio
         </Button>
       )}
-      {!showBioEditor && bio.length !== 0 && (
+      {!showBioEditor && bio?.length !== 0 && (
         <div className="flex flex-col space-y-5">
           <div className=" flex space-x-3 w-full items-center">
             <h1 className="text-xl  ">{bio || ""}</h1>

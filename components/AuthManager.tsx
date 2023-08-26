@@ -1,5 +1,12 @@
 import React, { useEffect } from "react";
-import { doc, getDoc, setDoc } from "firebase/firestore"; // Import Firestore modules
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore"; // Import Firestore modules
 import { auth, firestore } from "@/firebase";
 import { onAuthStateChanged } from "firebase/auth"; // Import onAuthStateChanged
 import useAuthStore from "@/stores/authStore";
@@ -15,12 +22,9 @@ interface Props {
 const AuthManager = (props: Props) => {
   const { setLoggedIn } = useAuthStore();
   const { setUid, setName, setPhotoURL, setEmail, uid } = useUserStore();
-  const { setBio } = useProfileInfo();
+  const { setBio, setLinks } = useProfileInfo();
   const router = useRouter();
   const pathname = router.pathname;
-  console.log(pathname);
-
-  console.log(uid);
 
   useEffect(() => {
     if (localStorage.getItem("authUser")) {
@@ -29,7 +33,7 @@ const AuthManager = (props: Props) => {
 
     // dashboard route guard
     if (router.pathname === "/dashboard") {
-      if (!localStorage.getItem("authUser") || !uid) {
+      if (!localStorage.getItem("authUser")) {
         router.push("/");
       }
     }
@@ -45,9 +49,20 @@ const AuthManager = (props: Props) => {
       if (user && uid.length === 0) {
         const docRef = doc(firestore, "users", user.uid);
         const docSnap = await getDoc(docRef);
+
         if (docSnap.exists()) {
           setUserData(user);
           setBio(docSnap.data()?.bio);
+          const linksCollectionRef = collection(docRef, "links");
+          const querySnapshot = await getDocs(linksCollectionRef);
+          const links: any = [];
+          querySnapshot.forEach((doc) => {
+            links.push({
+              id: doc.id,
+              ...doc.data(),
+            });
+          });
+          setLinks(links);
           if (pathname !== "/") {
             router.push("/dashboard");
           }
