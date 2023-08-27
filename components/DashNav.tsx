@@ -12,7 +12,7 @@ import useUserStore from "@/stores/user";
 const DashNav = () => {
   const router = useRouter();
   const { setLoggedIn } = useAuthStore();
-  const { name } = useUserStore();
+  const { name, username } = useUserStore();
 
   const handleLogout = () => {
     signOut(auth)
@@ -40,7 +40,7 @@ const DashNav = () => {
             variant={"secondary"}
             className="px-4 py-2 ring-2 ring-ring hover:bg-black hover:text-white text-lg cursor-pointer flex items-center space-x-2"
           >
-            <h1>My Link.Me</h1>
+            <h1>Link.me:// {username}</h1>
             <RxExternalLink />
           </Badge>
         </Link>

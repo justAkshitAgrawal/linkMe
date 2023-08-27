@@ -17,8 +17,18 @@ import useAuthStore from "@/stores/authStore";
 
 const Index = () => {
   const router = useRouter();
-  const { setUid, setEmail, setName } = useUserStore();
+  const { setUid, setEmail, setName, uid } = useUserStore();
   const { setLoggedIn } = useAuthStore();
+
+  const checkIfUserExists = async (uid: string) => {
+    const docRef = doc(firestore, "users", uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      router.push("/dashboard");
+    } else {
+      router.push("/onboarding");
+    }
+  };
 
   const handleLogin = async () => {
     await signInWithPopup(auth, provider)
@@ -29,6 +39,7 @@ const Index = () => {
         setEmail(data.user?.email);
         setName(data.user?.displayName);
         setLoggedIn(true);
+        checkIfUserExists(data.user.uid);
       })
       .catch((error) => {
         console.log(error);

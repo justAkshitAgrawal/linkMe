@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import {
   addDoc,
   collection,
@@ -21,66 +21,78 @@ interface Props {
 
 const AuthManager = (props: Props) => {
   const { setLoggedIn } = useAuthStore();
-  const { setUid, setName, setPhotoURL, setEmail, uid } = useUserStore();
+  const { setUid, setName, setPhotoURL, setEmail, uid, username, setUsername } =
+    useUserStore();
   const { setBio, setLinks } = useProfileInfo();
   const router = useRouter();
   const pathname = router.pathname;
+
+  const setUserData = (user: any) => {
+    setUid(user.uid);
+    setName(user.displayName);
+    setPhotoURL(user.photoURL);
+    setEmail(user.email);
+  };
+
+  const fetchLinks = async (docRef: any) => {
+    const linksCollectionRef = collection(docRef, "links");
+    const querySnapshot = await getDocs(linksCollectionRef);
+    const links: any = [];
+    querySnapshot.forEach((doc) => {
+      links.push({
+        id: doc.id,
+        ...doc.data(),
+      });
+    });
+    return links;
+  };
+
+  const handleAuthenticatedUser = async (user: any) => {
+    if (user && uid.length === 0) {
+      const docRef = doc(firestore, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setUserData(user);
+        setBio(docSnap.data()?.bio);
+        setUsername(docSnap.data()?.username);
+        const links = await fetchLinks(docRef);
+        setLinks(links);
+        if (docSnap.data()?.username) {
+          if (pathname === "/onboarding") {
+            router.push("/dashboard");
+          }
+        }
+      } else {
+        console.log("No such document!");
+        await setDoc(doc(firestore, "users", user.uid), {
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+        });
+        setUserData(user);
+      }
+    } else {
+      console.log("No user is signed in.");
+    }
+    console.log(username);
+  };
 
   useEffect(() => {
     if (localStorage.getItem("authUser")) {
       setLoggedIn(true);
     }
 
-    // dashboard route guard
     if (router.pathname === "/dashboard") {
       if (!localStorage.getItem("authUser")) {
         router.push("/");
       }
     }
 
-    const setUserData = (user: any) => {
-      setUid(user.uid);
-      setName(user.displayName);
-      setPhotoURL(user.photoURL);
-      setEmail(user.email);
-    };
+    // onboarding route guard
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user && uid.length === 0) {
-        const docRef = doc(firestore, "users", user.uid);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          setUserData(user);
-          setBio(docSnap.data()?.bio);
-          const linksCollectionRef = collection(docRef, "links");
-          const querySnapshot = await getDocs(linksCollectionRef);
-          const links: any = [];
-          querySnapshot.forEach((doc) => {
-            links.push({
-              id: doc.id,
-              ...doc.data(),
-            });
-          });
-          setLinks(links);
-          if (pathname !== "/") {
-            router.push("/dashboard");
-          }
-        } else {
-          console.log("No such document!");
-          await setDoc(doc(firestore, "users", user.uid), {
-            uid: user.uid,
-            name: user.displayName,
-            email: user.email,
-            photoURL: user.photoURL,
-          });
-          setUserData(user);
-          router.push("/onboarding");
-        }
-      } else {
-        console.log("No user is signed in.");
-      }
-    });
+    onAuthStateChanged(auth, handleAuthenticatedUser);
   }, []);
 
   return <div>{props.children}</div>;

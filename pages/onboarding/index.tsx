@@ -23,7 +23,19 @@ const Index = () => {
   const [usernameExists, setUsernameExists] = useState(true);
   const [loading, setLoading] = useState(false);
   const [available, setAvailable] = useState(false);
+  const [usernameError, setUsernameError] = useState(false);
   const router = useRouter();
+
+  const isUsernameValid = (username: string) => {
+    const regex = /^(?=[a-zA-Z])(?!^\d)(?!.*-$)[a-zA-Z0-9_-]{1,15}(?<![0-9])$/;
+    if (regex.test(username)) {
+      setUsernameError(false);
+      return true;
+    } else {
+      setUsernameError(true);
+      return false;
+    }
+  };
 
   const handleUsernameCheck = async () => {
     setUsernameExists(true);
@@ -94,8 +106,12 @@ const Index = () => {
               onBlur={handleUsernameCheck}
               disabled={loading}
               value={username || ""}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => {
+                setUsername(e.target.value);
+                isUsernameValid(e.target.value);
+              }}
             />
+
             <div className="right-2 top-[50%] -translate-y-[50%] absolute">
               {loading && <ImSpinner8 className="  animate-spin" />}
               {!loading && !usernameExists && available && (
@@ -109,14 +125,18 @@ const Index = () => {
               )}
             </div>
           </div>
+          {usernameError && (
+            <p className="text-red-500 text-xs ml-2 mt-1">Invalid username</p>
+          )}
         </CardContent>
         <CardFooter className="">
           <div className="flex flex-col">
-            <p className="text-xs">{`Your username is unique and can't be changed afterwards`}</p>
+            <p className="text-xs">{`Your username is unique and can't be changed afterwards.`}</p>
+            <p className="text-xs">{`Your username can contain -, _, 0 - 9.`}</p>
 
             <Button
               className="w-fit mt-5"
-              disabled={loading || usernameExists}
+              disabled={loading || usernameExists || usernameError}
               onClick={handleOnbaording}
             >
               Continue

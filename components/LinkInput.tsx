@@ -12,6 +12,7 @@ import {
   AiFillYoutube,
   AiOutlineLink,
 } from "react-icons/ai";
+
 import { addDoc, collection, doc, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebase";
 import useUserStore from "@/stores/user";
@@ -60,9 +61,23 @@ const LinkInput = ({ setShowLinkInput }: Props) => {
   const [selectedIcon, setSelectedIcon] = useState(0);
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
+  const [error, setError] = useState("");
 
   const { uid } = useUserStore();
   const { setLinks } = useProfileInfo();
+
+  const expression =
+    /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+
+  const regex = new RegExp(expression);
+
+  const isValidUrl = (url: string) => {
+    if (url.match(regex)) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   const handleAddLink = async () => {
     const docRef = doc(firestore, "users", uid);
@@ -90,15 +105,24 @@ const LinkInput = ({ setShowLinkInput }: Props) => {
       <h1 className=" font-semibold text-lg mb-2">New Link</h1>
       <Input
         placeholder="Enter Title"
+        maxLength={20}
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
       <Input
         className="mt-3"
         value={url}
-        onChange={(e) => setUrl(e.target.value)}
+        onChange={(e) => {
+          setUrl(e.target.value);
+          if (!isValidUrl(e.target.value)) {
+            setError("Invalid URL");
+          } else {
+            setError("");
+          }
+        }}
         placeholder="Enter Link URL"
       />
+      {error && <p className="text-red-500 text-xs ml-2 mt-1">{error}</p>}
 
       <div className="flex items-center mt-3 text-sm rounded-md border p-2">
         <h1 className="">Select Icon: </h1>
@@ -120,6 +144,7 @@ const LinkInput = ({ setShowLinkInput }: Props) => {
       </div>
       <Button
         className=" self-start mt-4"
+        disabled={error.length > 0 || title.length === 0 || url.length === 0}
         onClick={() => {
           setShowLinkInput(false);
           handleAddLink();
