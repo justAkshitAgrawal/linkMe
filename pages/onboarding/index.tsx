@@ -17,6 +17,7 @@ import { AiFillCheckCircle, AiOutlineStop } from "react-icons/ai";
 import { Button } from "@/components/ui/button";
 import { doc, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const Index = () => {
   const { name, setName, username, setUsername, uid } = useUserStore();
@@ -79,6 +80,9 @@ const Index = () => {
 
   return (
     <div className="h-screen bg-primary relative flex pt-28  justify-center">
+      <Head>
+        <title>Onboarding | Link.Me</title>
+      </Head>
       <Card className="h-fit ring">
         <CardHeader>
           <CardTitle className=" text-3xl">Onboarding</CardTitle>

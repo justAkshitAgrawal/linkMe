@@ -132,7 +132,7 @@ const LinkView = () => {
   };
 
   return (
-    <ScrollArea className="bg-white/5 ring ring-ring w-[35vw] rounded-md p-5 h-[310px]">
+    <ScrollArea className="bg-white/5 ring ring-ring w-[35vw] max-sm:w-[60vw] rounded-md p-5 h-[310px]">
       {links?.map((link: any) => {
         return (
           <Alert className="mb-3 relative" key={link.id}>
@@ -141,25 +141,25 @@ const LinkView = () => {
                 deleteLink(link.id);
                 handleDelete(link.id);
               }}
-              className="absolute right-3 top-[50%] -translate-y-[50%] ring-[2px] ring-red-500 cursor-pointer rounded-full p-1"
+              className="absolute right-3 max-sm:right-2 top-[50%] -translate-y-[50%] ring-[2px] ring-red-500 cursor-pointer rounded-full p-1"
             >
-              <AiFillDelete className="h-5 w-5 text-red-500" />
+              <AiFillDelete className="h-5 w-5 text-red-500 max-sm:h-3 max-sm:w-3" />
             </div>
             {/* <div className="absolute right-14 top-[50%] -translate-y-[50%] ring-[2px] ring-ring cursor-pointer rounded-full p-1"> */}
             <Dialog>
               <DialogTrigger asChild>
-                <div className="absolute right-14 top-[50%] -translate-y-[50%] ring-[2px] ring-ring cursor-pointer rounded-full p-1">
+                <div className="absolute right-14 max-sm:right-10 top-[50%] -translate-y-[50%] ring-[2px] ring-ring cursor-pointer rounded-full p-1">
                   <AiFillEdit
                     onClick={() => {
                       setSelectedIcon(link.iconId);
                       setLinkName(link?.name);
                       setLinkUrl(link.url);
                     }}
-                    className="h-5 w-5"
+                    className="h-5 w-5 max-sm:h-3 max-sm:w-3"
                   />
                 </div>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent className="sm:max-w-[425px] max-sm:w-[90vw]">
                 <DialogHeader>
                   <DialogTitle>Edit Link</DialogTitle>
                 </DialogHeader>
@@ -211,8 +211,8 @@ const LinkView = () => {
             </Dialog>
             {/* </div> */}
             {icons[link?.iconId]?.icon}
-            <AlertTitle>{link?.name}</AlertTitle>
-            <AlertDescription>
+            <AlertTitle className=" max-sm:mt-2">{link?.name}</AlertTitle>
+            <AlertDescription className=" max-sm:hidden">
               <Button
                 onClick={() => window.open(link?.url, "_blank")}
                 className="p-0"
@@ -225,8 +225,11 @@ const LinkView = () => {
         );
       })}
       {!showLinkInput && (
-        <Button className="text-lg" onClick={() => setShowLinkInput(true)}>
-          <PlusCircledIcon className="h-5 w-5 mr-2" />
+        <Button
+          className="text-lg max-sm:text-sm"
+          onClick={() => setShowLinkInput(true)}
+        >
+          <PlusCircledIcon className="h-5 w-5 mr-2 max-sm:h-4 max-sm:w-4" />
           New Link
         </Button>
       )}

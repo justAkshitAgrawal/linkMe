@@ -1,7 +1,7 @@
 import React from "react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { AiOutlineLogout } from "react-icons/ai";
+import { AiFillCopy, AiOutlineLogout } from "react-icons/ai";
 import { RxExternalLink } from "react-icons/rx";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/router";
@@ -30,23 +30,34 @@ const DashNav = () => {
 
   return (
     <nav className="px-10 py-4 border-[1px] bg-secondary rounded-full flex justify-between items-center ring-2">
-      <Badge className="px-4 cursor-default py-2 text-lg">
+      <Badge className="px-4 cursor-default py-2 text-lg max-sm:hidden">
         Welcome{name?.split(" ")[0] ? ", " + name?.split(" ")[0] : ""}
       </Badge>
 
-      <div className="flex items-center space-x-5">
-        <Link href="/about">
+      <div className="flex items-center max-sm:space-x-0 max-sm:justify-between max-sm:w-full space-x-5">
+        <AiFillCopy
+          className=" h-6 w-6 max-sm:hidden cursor-pointer"
+          onClick={() => {
+            navigator.clipboard.writeText(
+              `https://linkme.vercel.app/u/${username}`
+            );
+          }}
+        />
+        <Link href={`/u/${username}`} target="_blank">
           <Badge
             variant={"secondary"}
-            className="px-4 py-2 ring-2 ring-ring hover:bg-black hover:text-white text-lg cursor-pointer flex items-center space-x-2"
+            className="px-4 py-2 ring-2 ring-ring hover:bg-black hover:text-white text-lg max-sm:text-xs cursor-pointer flex items-center space-x-2 max-sm:p-2"
           >
-            <h1>Link.me:// {username}</h1>
-            <RxExternalLink />
+            <h1>
+              <span className="max-sm:hidden">Link.me://</span>
+              {username}
+            </h1>
+            <RxExternalLink className="max-sm:hidden" />
           </Badge>
         </Link>
 
         <Badge
-          className="px-4 py-2 ring-2 ring-ring flex items-center space-x-2 hover:text-white text-lg cursor-pointer"
+          className="px-4 py-2 ring-2 ring-ring flex items-center space-x-2 hover:text-white text-lg max-sm:text-xs cursor-pointer max-sm:p-2"
           onClick={() => {
             handleLogout();
           }}

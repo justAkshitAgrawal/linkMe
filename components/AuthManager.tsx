@@ -20,7 +20,7 @@ interface Props {
 }
 
 const AuthManager = (props: Props) => {
-  const { setLoggedIn } = useAuthStore();
+  const { setLoggedIn, loggedIn } = useAuthStore();
   const { setUid, setName, setPhotoURL, setEmail, uid, username, setUsername } =
     useUserStore();
   const { setBio, setLinks } = useProfileInfo();
@@ -82,6 +82,12 @@ const AuthManager = (props: Props) => {
   useEffect(() => {
     if (localStorage.getItem("authUser")) {
       setLoggedIn(true);
+    }
+
+    if (loggedIn !== true) {
+      if (pathname === "/onboarding") {
+        router.push("/");
+      }
     }
 
     if (router.pathname === "/dashboard") {

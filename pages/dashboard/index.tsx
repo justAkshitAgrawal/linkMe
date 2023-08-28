@@ -1,24 +1,26 @@
 import React from "react";
 import { motion } from "framer-motion";
 import DashNav from "@/components/DashNav";
-import { Button } from "@/components/ui/button";
-import { PlusCircledIcon } from "@radix-ui/react-icons";
 import BioArea from "@/components/BioArea";
 import Profile from "@/components/Profile";
 import useUserStore from "@/stores/user";
 import LinkView from "@/components/LinkView";
+import Head from "next/head";
 
 const Index = () => {
   const { uid, name } = useUserStore();
 
   return (
     <div className="min-h-screen bg-primary">
-      <div className="px-20 py-14">
+      <Head>
+        <title>Dashboard | {name}</title>
+      </Head>
+      <div className="px-20 py-14 max-sm:px-5 max-sm:py-10">
         <div>
           <DashNav />
         </div>
 
-        <div className="mt-28 flex items-start space-x-10">
+        <div className="mt-28 flex items-start max-sm:flex-col space-x-10 max-sm:space-x-0 max-sm:items-center max-sm:mt-14">
           <motion.div
             initial={{
               opacity: 0,
@@ -31,7 +33,7 @@ const Index = () => {
             className="flex-1 flex flex-col items-center "
           >
             <div className="bg-white p-10 rounded-md ring-4 flex flex-col items-center space-y-8">
-              <h1 className=" self-start text-4xl font-bold">
+              <h1 className=" self-start text-4xl max-sm:text-xl font-bold">
                 Your{" "}
                 <motion.span
                   style={{
@@ -63,10 +65,14 @@ const Index = () => {
             </div>
           </motion.div>
 
-          <div className="w-[28vw]">
-            <div className=" ring-[10px] flex-1 ring-white border p-5 rounded-3xl h-[60vh] w-[16vw] mr-20">
+          <div className="w-[28vw] max-sm:hidden">
+            <div className=" ring-[10px] flex-1 ring-white border p-5 rounded-3xl h-[60vh] w-[16vw] max-sm:w-[60vw] mr-20">
               <Profile />
             </div>
+          </div>
+
+          <div className="sm:hidden mt-20 ring-[10px] flex-1 ring-white border p-5 rounded-3xl h-[60vh] w-[65vw] mr-20">
+            <Profile />
           </div>
         </div>
       </div>

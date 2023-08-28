@@ -14,6 +14,7 @@ import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import useUserStore from "@/stores/user";
 import useAuthStore from "@/stores/authStore";
+import Head from "next/head";
 
 const Index = () => {
   const router = useRouter();
@@ -48,6 +49,9 @@ const Index = () => {
 
   return (
     <div className="h-screen bg-primary relative">
+      <Head>
+        <title>Get Started | Link.Me</title>
+      </Head>
       <div className="px-20 py-14">
         <div>
           <Navbar />

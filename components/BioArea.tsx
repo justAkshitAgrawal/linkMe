@@ -44,17 +44,17 @@ const BioArea = () => {
       animate={{
         height: "auto",
       }}
-      className="bg-white/5 ring ring-ring w-[35vw] relative rounded-md p-5"
+      className="bg-white/5 ring ring-ring w-[35vw] max-sm:w-[60vw] relative rounded-md p-5"
     >
       {bio?.length !== 0 && !showBioEditor && (
         <div
-          className="absolute right-5 ring ring-red-500 p-1 rounded-full top-[50%] -translate-y-[50%] cursor-pointer"
+          className="absolute right-5 ring ring-red-500 p-1 rounded-full top-[50%] max-sm:ring-1 -translate-y-[50%] cursor-pointer"
           onClick={() => {
             setCount(0);
             clearBio();
           }}
         >
-          <TbTrashXFilled className=" h-6 w-6 text-red-500" />
+          <TbTrashXFilled className=" h-6 w-6 max-sm:h-4 max-sm:w-4 text-red-500" />
         </div>
       )}
       {!showBioEditor && bio?.length === 0 && (
@@ -66,13 +66,13 @@ const BioArea = () => {
       {!showBioEditor && bio?.length !== 0 && (
         <div className="flex flex-col space-y-5">
           <div className=" flex space-x-3 w-full items-center">
-            <h1 className="text-xl  ">{bio || ""}</h1>
+            <h1 className="text-xl max-sm:text-lg  ">{bio || ""}</h1>
           </div>
           <Button
-            className="text-lg self-start"
+            className="text-lg max-sm:text-sm self-start"
             onClick={() => setShowBioEditor(true)}
           >
-            <Pencil2Icon className="h-5 w-5 mr-2" />
+            <Pencil2Icon className="h-5 w-5 max-sm:h-4 max-sm:w-4 mr-2" />
             Edit
           </Button>
         </div>
@@ -86,7 +86,7 @@ const BioArea = () => {
           className="flex flex-col space-y-5"
         >
           <Textarea
-            className="w-full h-20 bg-white/5 rounded-md p-5 max-h-[120px] text-lg  "
+            className="w-full h-20 bg-white/5 rounded-md p-5 max-h-[120px] text-lg max-sm:text-sm  "
             placeholder="Tell us about yourself"
             value={bio || ""}
             maxLength={100}
@@ -96,9 +96,9 @@ const BioArea = () => {
             }}
           />
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center max-sm:flex-col max-sm:space-x-0 max-sm:space-y-2 space-x-2">
               <Button
-                className="text-lg self-start"
+                className="text-lg max-sm:text-sm max-sm:w-full self-start"
                 onClick={() => {
                   setShowBioEditor(false);
                   updateBio();
@@ -107,7 +107,7 @@ const BioArea = () => {
                 Save
               </Button>
               <Button
-                className="text-lg self-start text-red-500"
+                className="text-lg max-sm:text-sm self-start text-red-500"
                 variant={"secondary"}
                 onClick={() => {
                   setShowBioEditor(false);

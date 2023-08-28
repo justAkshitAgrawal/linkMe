@@ -15,6 +15,10 @@ import {
   AiFillYoutube,
   AiOutlineLink,
 } from "react-icons/ai";
+import { ImSpinner8 } from "react-icons/im";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import Link from "next/link";
+import Head from "next/head";
 
 type User = {
   name?: string;
@@ -68,8 +72,10 @@ export default function UserProfile() {
 
   const [user, setUser] = useState<User>({});
   const [links, setLinks] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    setLoading(true);
     if (username) {
       const getUser = async () => {
         const q = query(
@@ -88,6 +94,7 @@ export default function UserProfile() {
           });
           setLinks(linksData);
         });
+        setLoading(false);
       };
       getUser();
     }
@@ -95,6 +102,9 @@ export default function UserProfile() {
 
   return user?.name ? (
     <div className="h-screen bg-primary relative">
+      <Head>
+        <title>{user.name} | Link.Me</title>
+      </Head>
       <img
         src="/bg2.jpg"
         className="absolute md:hidden h-full w-full max-md:object-cover "
@@ -124,8 +134,8 @@ export default function UserProfile() {
         <h1 className="  text-white mt-10 text-2xl z-50">{user.name}</h1>
         <p className="text-white mt-3 text-lg z-50">{user.bio}</p>
 
-        <div className="flex items-center mt-10 p-2 flex-col z-50">
-          <div className="flex flex-col space-y-6">
+        <ScrollArea className="flex items-center mt-10 p-2 flex-col z-50 h-[400px] max-md:h-[33vh]">
+          <div className="flex flex-col items-center mt-6 px-5 space-y-5">
             {links?.map((link: any) => {
               return (
                 <a
@@ -133,7 +143,7 @@ export default function UserProfile() {
                   target="_blank"
                   rel="noreferrer"
                   key={link.id}
-                  className="flex px-10 py-2 space-x-4 rounded-full items-center text-white ring-[2px] ring-white"
+                  className="flex px-10 py-2 space-x-4 rounded-full items-center w-full text-white ring-[2px] ring-white"
                 >
                   {icons[link?.iconId]?.icon}
                   <h1>{link?.name}</h1>
@@ -141,9 +151,12 @@ export default function UserProfile() {
               );
             })}
           </div>
-        </div>
+        </ScrollArea>
       </div>
-      <h1 className=" fixed bottom-5 left-[50%] -translate-x-[50%] text-xl font-semibold">
+      <Link
+        href="/"
+        className=" fixed bottom-5 left-[50%] -translate-x-[50%] text-xl font-semibold"
+      >
         <motion.span
           style={{
             backgroundClip: "text",
@@ -166,9 +179,25 @@ export default function UserProfile() {
         >
           Link.Me
         </motion.span>
-      </h1>
+      </Link>
     </div>
   ) : (
-    <h1>Not found</h1>
+    <div className="h-screen bg-primary flex items-center justify-center text-white relative">
+      <Head>
+        {loading ? (
+          <title>Loading...</title>
+        ) : (
+          <title>User Not Found | Link.Me</title>
+        )}
+      </Head>
+      {loading && (
+        <div className=" h-full w-full bg-black flex items-center justify-center ">
+          <ImSpinner8 className="animate-spin h-10 w-10" />
+        </div>
+      )}
+      {!loading && !user?.name && (
+        <h1 className=" max-md:text-2xl text-5xl">{`This user doesn't exist!`}</h1>
+      )}
+    </div>
   );
 }

@@ -81,7 +81,7 @@ const Profile = () => {
 
       <h1 className="text-white mt-3 text-lg">{name}</h1>
 
-      <p className=" text-white text-sm text-center max-w-[12vw] break-words mt-3">
+      <p className=" text-white text-sm text-center max-w-[12vw] max-sm:max-w-[40vw] break-words mt-3">
         {bio || ""}
       </p>
 
