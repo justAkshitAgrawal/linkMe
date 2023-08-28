@@ -57,9 +57,7 @@ const Index = () => {
           setLoading(false);
           setAvailable(true);
         }
-      } catch (error) {
-        console.error("Error checking username:", error);
-      }
+      } catch (error) {}
     }
   };
 
@@ -72,9 +70,7 @@ const Index = () => {
           username: username,
         });
         router.push("/dashboard");
-      } catch (error) {
-        console.error("Error setting document:", error);
-      }
+      } catch (error) {}
     }
   };
 

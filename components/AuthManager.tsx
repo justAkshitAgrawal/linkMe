@@ -64,7 +64,6 @@ const AuthManager = (props: Props) => {
           }
         }
       } else {
-        console.log("No such document!");
         await setDoc(doc(firestore, "users", user.uid), {
           uid: user.uid,
           name: user.displayName,
@@ -74,9 +73,7 @@ const AuthManager = (props: Props) => {
         setUserData(user);
       }
     } else {
-      console.log("No user is signed in.");
     }
-    console.log(username);
   };
 
   useEffect(() => {

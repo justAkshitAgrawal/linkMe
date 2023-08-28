@@ -42,9 +42,7 @@ const Index = () => {
         setLoggedIn(true);
         checkIfUserExists(data.user.uid);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   return (

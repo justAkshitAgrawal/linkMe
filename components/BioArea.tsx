@@ -22,9 +22,7 @@ const BioArea = () => {
         updateDoc(docRef, {
           bio: bio,
         });
-      } catch (error) {
-        console.error("Error setting document:", error);
-      }
+      } catch (error) {}
     }
   };
 
