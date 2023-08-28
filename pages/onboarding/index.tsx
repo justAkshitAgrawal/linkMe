@@ -79,7 +79,7 @@ const Index = () => {
       <Head>
         <title>Onboarding | Link.Me</title>
       </Head>
-      <Card className="h-fit ring">
+      <Card className="h-fit ring max-sm:w-[85vw]">
         <CardHeader>
           <CardTitle className=" text-3xl">Onboarding</CardTitle>
           <CardDescription>

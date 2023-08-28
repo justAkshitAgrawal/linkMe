@@ -50,7 +50,7 @@ const Index = () => {
       <Head>
         <title>Get Started | Link.Me</title>
       </Head>
-      <div className="px-20 py-14">
+      <div className="px-20 py-14 max-sm:px-5 max-sm:py-10">
         <div>
           <Navbar />
         </div>
@@ -58,7 +58,7 @@ const Index = () => {
 
       <div className="flex justify-center mt-20">
         <div>
-          <Card className="w-[450px] ring">
+          <Card className="w-[450px] max-sm:w-[300px] ring">
             <CardHeader>
               <CardTitle className="text-3xl">Get Started</CardTitle>
               <CardDescription className="text-lg">

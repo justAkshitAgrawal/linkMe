@@ -6,9 +6,12 @@ import Profile from "@/components/Profile";
 import useUserStore from "@/stores/user";
 import LinkView from "@/components/LinkView";
 import Head from "next/head";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { RxExternalLink } from "react-icons/rx";
 
 const Index = () => {
-  const { uid, name } = useUserStore();
+  const { uid, name, username } = useUserStore();
 
   return (
     <div className="min-h-screen bg-primary">
@@ -62,6 +65,20 @@ const Index = () => {
               <BioArea />
 
               <LinkView />
+
+              <Link
+                href={`/u/${username}`}
+                className="sm:hidden"
+                target="_blank"
+              >
+                <Badge
+                  variant={"secondary"}
+                  className="px-4 py-2 ring-2 ring-ring hover:bg-black hover:text-white text-lg max-sm:text-xs cursor-pointer flex items-center space-x-2 max-sm:p-2"
+                >
+                  <h1>Visit your profile</h1>
+                  <RxExternalLink className="max-sm:h-3" />
+                </Badge>
+              </Link>
             </div>
           </motion.div>
 

@@ -52,7 +52,7 @@ const DashNav = () => {
               <span className="max-sm:hidden">Link.me://</span>
               {username}
             </h1>
-            <RxExternalLink className="max-sm:hidden" />
+            <RxExternalLink className="max-sm:h-3" />
           </Badge>
         </Link>
 
