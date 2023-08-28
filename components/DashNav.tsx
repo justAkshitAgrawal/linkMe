@@ -39,7 +39,7 @@ const DashNav = () => {
           className=" h-6 w-6 max-sm:hidden cursor-pointer"
           onClick={() => {
             navigator.clipboard.writeText(
-              `https://linkme.vercel.app/u/${username}`
+              `https://link-me-gules.vercel.app/u/${username}`
             );
           }}
         />
