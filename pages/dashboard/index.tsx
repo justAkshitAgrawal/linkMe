@@ -9,9 +9,13 @@ import Head from "next/head";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { RxExternalLink } from "react-icons/rx";
+import useAuthStore from "@/stores/authStore";
 
 const Index = () => {
   const { uid, name, username } = useUserStore();
+  const { loggedIn } = useAuthStore();
+
+  console.log(username, loggedIn);
 
   return (
     <div className="min-h-screen bg-primary">

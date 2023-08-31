@@ -62,6 +62,8 @@ const AuthManager = (props: Props) => {
           if (pathname === "/onboarding") {
             router.push("/dashboard");
           }
+        } else {
+          router.push("/onboarding");
         }
       } else {
         await setDoc(doc(firestore, "users", user.uid), {
@@ -92,8 +94,6 @@ const AuthManager = (props: Props) => {
         router.push("/");
       }
     }
-
-    // onboarding route guard
 
     onAuthStateChanged(auth, handleAuthenticatedUser);
   }, []);

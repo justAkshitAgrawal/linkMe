@@ -102,41 +102,50 @@ const Index = () => {
           <div className="relative">
             <Input
               type="text"
+              maxLength={15}
               placeholder="Enter a preferred username..."
               onBlur={handleUsernameCheck}
               disabled={loading}
               value={username || ""}
               onChange={(e) => {
-                setUsername(e.target.value);
-                isUsernameValid(e.target.value);
+                setAvailable(false);
+                const inputValue = e.target.value;
+                isUsernameValid(inputValue);
+                setUsername(inputValue);
               }}
             />
 
-            <div className="right-2 top-[50%] -translate-y-[50%] absolute">
-              {loading && <ImSpinner8 className="  animate-spin" />}
-              {!loading && !usernameExists && available && (
-                <AiFillCheckCircle className=" text-green-500" />
-              )}
-              {!loading && usernameExists && (
-                <AiOutlineStop
-                  className="
-                text-red-500"
-                />
-              )}
-            </div>
+            {!loading && (
+              <div className="right-2 top-[50%] -translate-y-[50%] absolute">
+                {usernameExists && <AiOutlineStop className="text-red-500" />}
+                {!usernameExists && usernameError && (
+                  <p className="text-red-500 text-xs mt-1">Invalid username</p>
+                )}
+                {!usernameError && available && (
+                  <AiFillCheckCircle className="text-green-500" />
+                )}
+              </div>
+            )}
           </div>
-          {usernameError && (
+          {/* {usernameError && (
             <p className="text-red-500 text-xs ml-2 mt-1">Invalid username</p>
-          )}
+          )} */}
         </CardContent>
         <CardFooter className="">
           <div className="flex flex-col">
             <p className="text-xs">{`Your username is unique and can't be changed afterwards.`}</p>
-            <p className="text-xs">{`Your username can contain -, _, 0 - 9.`}</p>
+            <p className="text-xs">{`Your username can contain -, _, 0 - 9. It can only end with an alphabet`}</p>
 
             <Button
               className="w-fit mt-5"
-              disabled={loading || usernameExists || usernameError}
+              disabled={
+                loading ||
+                usernameExists ||
+                usernameError ||
+                available === false ||
+                username === "" ||
+                name === ""
+              }
               onClick={handleOnbaording}
             >
               Continue
